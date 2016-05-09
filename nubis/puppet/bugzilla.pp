@@ -14,6 +14,7 @@ package {
     'graphviz',
     'patchutils',
     'mod24_perl',
+    'mod24_perl-devel',
     'perl',
     'perl-devel',
     'perl-version',
