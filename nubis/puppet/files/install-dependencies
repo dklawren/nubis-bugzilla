@@ -8,12 +8,9 @@ if [ ! -d $DISTS ]; then
   mkdir $DISTS
 fi
 
-CPANM="cpanm --configure-timeout 300 --save-dists $DISTS"
+CPANM="cpanm --quiet --notest --configure-timeout 300 --save-dists $DISTS"
 
 cd /var/www/bugzilla
-
-# Install Perl dependencies
-CPANM="cpanm -l local --quiet"
 
 # - Crypt::SMIME > 0.15 fails to build properly on RHEL6
 # - Cache::Memcached is not picked up by normal dep check (will investigate)
