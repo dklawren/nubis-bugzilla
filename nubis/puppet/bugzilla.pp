@@ -12,6 +12,7 @@ yumrepo { 'epel':
 package {
   [
     'expat-devel',
+    'gcc-c++',
     'gd-devel',
     'gmp-devel',
     'graphviz',
