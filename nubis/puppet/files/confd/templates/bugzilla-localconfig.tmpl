@@ -83,6 +83,22 @@ $db_sock = '';
 # run.
 $db_check = {{ if exists "/config/db_check" }}{{ getv "/config/db_check" }}{{ else }}1{{ end }};
 
+# Path to a PEM file with a list of trusted SSL CA certificates.
+# The file must be readable by web server user.
+$db_mysql_ssl_ca_file = '';
+
+# Path to a directory containing trusted SSL CA certificates in PEM format.
+# Directory and files inside must be readable by the web server user.
+$db_mysql_ssl_ca_path = '';
+
+# Full path to the client SSL certificate in PEM format we will present to the DB server.
+# The file must be readable by web server user.
+$db_mysql_ssl_client_cert = '';
+
+# Full path to the private key corresponding to the client SSL certificate.
+# The file must not be password-protected and must be readable by web server user.
+$db_mysql_ssl_client_key = '';
+
 # Most web servers will allow you to use index.cgi as a directory
 # index, and many come preconfigured that way, but if yours doesn't
 # then you'll need an index.html file that provides redirection
@@ -93,10 +109,6 @@ $db_check = {{ if exists "/config/db_check" }}{{ getv "/config/db_check" }}{{ el
 #       make sure that index.html doesn't already exist.
 $index_html = 0;
 
-# If you want to use the CVS integration of the Patch Viewer, please specify
-# the full path to the "cvs" executable here.
-$cvsbin = '';
-
 # If you want to use the "Difference Between Two Patches" feature of the
 # Patch Viewer, please specify the full path to the "interdiff" executable
 # here.
@@ -106,6 +118,30 @@ $interdiffbin = '/usr/bin/interdiff';
 # what directory the "diff" bin is in. (You only need to set this if you
 # are using that feature of the Patch Viewer.)
 $diffpath = '/usr/bin';
+
+# You can specify the full path to a TrueType or OpenType font file, which will
+# be used to display text (labels, legends, ...) in charts and graphical reports.
+# To support as many languages as possible, we recommend to specify a font such as
+# Unifont (http://unifoundry.com/unifont.html), which supports all printable
+# characters in the Basic Multilingual Plane. If you leave this parameter empty,
+# a default font will be used, but its support is limited to English characters
+# only and so other characters will be displayed incorrectly.
+$font_file = '';
+
+# It is possible to show graphs of dependent bugs. You may set this parameter to
+# any of the following:
+#
+# - A complete file path to 'dot' (part of GraphViz (http://www.graphviz.org/))
+#   will generate the graphs locally.
+# - A URL prefix pointing to an installation of the webdot package will generate
+#   the graphs remotely. (append "/%urlbase%" to the URL prefix)
+# - A blank value will disable dependency graphing.
+#
+# If you use a webdot URL prefix, make certain that the webdot server can read
+# files from your webdot directory. On Apache you do this by editing the
+# .htaccess file, for other systems the needed measures may vary. You can run
+# checksetup.pl to recreate the .htaccess file if it has been lost.
+$webdotbase = '';
 
 # This secret key is used by your installation for the creation and
 # validation of encrypted tokens. These tokens are used to implement
