@@ -104,8 +104,8 @@ apache::vhost { $service:
     PerlCleanupHandler  Apache2::SizeLimit Bugzilla::ModPerl::CleanupHandler
     PerlOptions +ParseHeaders
     Options +ExecCGI +FollowSymLinks
-    AllowOverride Limit FileInfo Indexes
-    DirectoryIndex index.cgi index.html	
+    AllowOverride Limit FileInfo Indexes AuthConfig Options=Indexes
+    DirectoryIndex index.cgi index.html
 	'
       },
     ],
