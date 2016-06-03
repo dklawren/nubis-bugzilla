@@ -8,19 +8,40 @@ if [ ! -d $DISTS ]; then
   mkdir $DISTS
 fi
 
-CPANM="cpanm --quiet --notest --configure-timeout 300 --save-dists $DISTS"
+CPANM="cpanm -l local --quiet --notest --configure-timeout 300 --save-dists $DISTS"
 
 cd /var/www/bugzilla
 
-# - Crypt::SMIME > 0.15 fails to build properly on RHEL6
-# - Cache::Memcached is not picked up by normal dep check (will investigate)
-$CPANM --notest Crypt::SMIME@0.15 Cache::Memcached
+# Install vendor tarball first
+if [ ! -d local ]; then
+  if [ ! -f /vendor.tar.gz ]; then
+    wget https://s3.amazonaws.com/moz-devservices-bmocartons/aws-prod/vendor.tar.gz -O /vendor.tar.gz
+  fi
+  tar zxvf /vendor.tar.gz
+  perl vendor/bin/carton install --cached --deployment
+fi
 
-# - Newer version of Apache2::SizeLimit that what is included in RHEL6
+# Newer version of Apache2::SizeLimit that what is included in RHEL6
 $CPANM --reinstall Apache2::SizeLimit
 
-$CPANM --installdeps --skip-satisfied --with-all-features --without-feature elasticsearch \
-            --without-feature oracle --without-feature sqlite --without-feature pg .
+# Crypt::SMIME > 0.15 fails to build properly on RHEL6
+# Cache::Memcached is not picked up by normal dep check (will investigate)
+$CPANM --skip-satisfied Crypt::SMIME@0.15 Cache::Memcached
+
+# Pick up any new deps since last time we built this image
+$CPANM --skip-satisfied --installdeps --with-all-features \
+    --without-feature auth_ldap \
+    --without-feature auth_radius \
+    --without-feature elasticsearch \
+    --without-feature inbound_email \
+    --without-feature moving \
+    --without-feature oracle \
+    --without-feature pg \
+    --without-feature psgi \
+    --without-feature smtp_auth \
+    --without-feature sqlite \
+    --without-feature update \
+    .
 
 #for pkg in \
 #   Math::Random::ISAAC \
@@ -71,3 +92,6 @@ $CPANM --installdeps --skip-satisfied --with-all-features --without-feature elas
 
 tar -C "$(dirname $DISTS)" -zcvf $DISTS.tar.gz "$(basename $DISTS)"
 rm -rf $DISTS
+
+# Remove CPAN build files to minimize disk usage
+rm -rf ~/.cpanm
