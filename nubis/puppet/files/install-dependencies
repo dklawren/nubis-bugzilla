@@ -41,53 +41,6 @@ $CPANM --skip-satisfied --installdeps --with-all-features \
     --without-feature update \
     .
 
-#for pkg in \
-#   Math::Random::ISAAC \
-#   File::MimeInfo::Magic \
-#   Daemon::Generic \
-#   Crypt::OpenPGP \
-#   Crypt::SMIME \
-#   TheSchwartz \
-#   Any::URI::Escape \
-#   Chart::Base \
-#   HTTP::Lite \
-#   JSON::RPC \
-#   PatchReader \
-#   Authen::Radius \
-#   Template::Plugin::GD \
-#   Math::BigInt \
-#   ElasticSearch@0.68 \
-#   Test::Number::Delta \
-#   Math::Random::MT \
-#   Devel::StackTrace \
-#   Convert::Base32 \
-#   Auth::GoogleAuth \
-#   Net::SFTP \
-#   File::Copy::Recursive \
-#   MIME::Tools@5.502 \
-#   Email::Simple@2.100 \
-#   Email::Send@2.198 \
-#   Email::MIME::ContentType@1.011 \
-#   Email::MIME@1.910 \
-#   Email::MIME::Attachment::Stripper@1.316 \
-#   Email::Reply@1.202 \
-#  ; do
-#  echo "Installing $pkg"
-#  $CPANM $pkg
-#done
-#
-## Force install, this is failing some tests
-#for pkg in \
-#    Math::BigInt::Pari \
-#    Math::BigInt::GMP \
-#   ; do
-#   echo "Installing --force $pkg"
-#  $CPANM --force $pkg
-#done
-
-#echo "Monkey patching for issue https://github.com/btrott/Crypt-OpenPGP/issues/30"
-#curl 'https://patch-diff.githubusercontent.com/raw/btrott/Crypt-OpenPGP/pull/31.diff' | ( cd /usr/local/share/perl5 ; patch -p2 )
-
 tar -C "$(dirname $DISTS)" -zcvf $DISTS.tar.gz "$(basename $DISTS)"
 rm -rf $DISTS
 
