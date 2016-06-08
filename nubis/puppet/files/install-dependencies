@@ -10,6 +10,7 @@ fi
 
 CPANM="cpanm -l local --quiet --notest --configure-timeout 300 --save-dists $DISTS"
 
+
 cd /var/www/bugzilla
 
 # Install vendor tarball first
