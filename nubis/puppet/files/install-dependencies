@@ -14,7 +14,7 @@ cd /var/www/bugzilla
 
 # Install vendor tarball first
 if [ ! -d local ]; then
-  wget https://s3.amazonaws.com/moz-devservices-bmocartons/aws-prod/vendor.tar.gz -O vendor.tar.gz
+  curl https://s3.amazonaws.com/moz-devservices-bmocartons/aws-prod/vendor.tar.gz -o vendor.tar.gz
   tar zxvf vendor.tar.gz
   perl vendor/bin/carton install --cached --deployment
 fi
